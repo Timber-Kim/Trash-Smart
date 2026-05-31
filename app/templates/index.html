@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trash-Smart — 재활용 분류 가이드</title>
+  <link rel="stylesheet" href="/static/css/style.css" />
+</head>
+<body>
+  <header>
+    <h1>🗑️ Trash-Smart</h1>
+    <p class="subtitle">AI가 알려주는 올바른 재활용 분리수거 방법</p>
+  </header>
+
+  <main>
+    <section class="upload-section">
+      <div class="drop-zone" id="dropZone">
+        <div class="drop-icon">📷</div>
+        <p>이미지를 드래그하거나 클릭하여 업로드</p>
+        <p class="hint">JPG, PNG, JPEG 지원 · 최대 10MB</p>
+        <input type="file" id="fileInput" accept="image/*" hidden />
+      </div>
+      <div class="preview-container" id="previewContainer" style="display:none;">
+        <img id="previewImage" src="" alt="미리보기" />
+        <button id="resetBtn" class="btn-secondary">다시 선택</button>
+      </div>
+      <button id="predictBtn" class="btn-primary" disabled>분류 시작</button>
+    </section>
+
+    <section class="result-section" id="resultSection" style="display:none;">
+      <h2>분류 결과</h2>
+      <div id="resultCards"></div>
+    </section>
+
+    <section class="loading" id="loading" style="display:none;">
+      <div class="spinner"></div>
+      <p>AI가 분석 중입니다...</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>한국 재활용 분리수거 기준 적용 | Powered by EfficientNet-B3 + PyTorch</p>
+  </footer>
+
+  <script src="/static/js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+# Trash-Smart 학습 설정
+
+# 데이터
+data_dir: data/processed
+num_classes: 8
+img_size: 300
+
+# 학습
+epochs: 30
+batch_size: 32
+num_workers: 4
+seed: 42
+
+# 옵티마이저
+lr: 0.0003
+weight_decay: 0.01
+
+# 체크포인트
+checkpoint_dir: models/checkpoints
