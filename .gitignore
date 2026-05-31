@@ -20,6 +20,10 @@ env/
 # 데이터 (용량이 크므로 제외)
 data/raw/
 data/processed/
+data/train/
+data/val/
+data/test/
+*.zip
 
 # 모델 가중치
 models/checkpoints/*.pth
