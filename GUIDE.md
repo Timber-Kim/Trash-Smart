@@ -194,19 +194,25 @@ for f in os.listdir('models/checkpoints'):
 
 ---
 
-## 5. 모델 비교 (선택)
+## 5. 모델 비교
 
-두 모델의 성능을 비교하려면 `.pth` 파일이 두 개 다 필요해요.  
-상대방이 Drive에 백업한 파일을 받아서 사용해요.
+학습 없이 저장된 가중치로 바로 비교 평가할 수 있어요.  
+섹션 2(환경 세팅)까지 완료한 상태에서 아래 셀을 실행하세요.
 
-**상대방 체크포인트 복사**
+**셀 — 체크포인트 다운로드 (GitHub Releases)**
 ```python
-# 경로는 상대방 Drive 백업 위치에 맞게 수정
-!cp /content/drive/MyDrive/Trash-Smart-checkpoints/resnet50_best.pth models/checkpoints/
-!cp /content/drive/MyDrive/Trash-Smart-checkpoints/efficientnet_b0_best.pth models/checkpoints/
+!mkdir -p models/checkpoints
+
+!wget https://github.com/Timber-Kim/Trash-Smart/releases/download/untagged-f5f0c4f8db08a310dc17/resnet50_best.pth \
+     -O models/checkpoints/resnet50_best.pth
+
+!wget https://github.com/Timber-Kim/Trash-Smart/releases/download/untagged-f5f0c4f8db08a310dc17/efficientnet_b0_best.pth \
+     -O models/checkpoints/efficientnet_b0_best.pth
+
+print("다운로드 완료!")
 ```
 
-**비교 평가 실행**
+**셀 — 비교 평가 실행**
 ```python
 !python src/evaluate.py \
     --checkpoints models/checkpoints/resnet50_best.pth \
@@ -215,7 +221,10 @@ for f in os.listdir('models/checkpoints'):
     --output_dir results
 ```
 
-**결과 Drive에 저장**
+> 실행 결과: Accuracy, Macro F1, 추론 시간 비교표 출력  
+> `results/` 폴더에 confusion matrix 이미지 저장
+
+**셀 — 결과 Drive에 백업**
 ```python
 !cp -r results/ /content/drive/MyDrive/Trash-Smart-results/
 ```
