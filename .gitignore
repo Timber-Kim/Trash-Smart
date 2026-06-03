@@ -54,3 +54,4 @@ htmlcov/
 .coverage
 
 data_256/
+configs/config.yaml

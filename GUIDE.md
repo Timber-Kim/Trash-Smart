@@ -38,29 +38,36 @@ GitHub는 코드를 공유하는 공간이에요. 팀원은 **코드를 직접 �
 
 ## 2. Google Drive — 데이터 올리기
 
-이미지 데이터(약 14GB)는 Git에 올릴 수 없어서 Google Drive를 써요.
+> **팀장만 1회 업로드** — 팀원은 공유 링크를 받아서 접근만 하면 돼요.
 
-### 데이터 폴더 구조 확인
+이미지 데이터는 256×256으로 미리 리사이즈한 버전(`data_256/`)을 사용해요.  
+원본 ~140GB → 리사이즈 후 **약 600MB~1GB** 로 줄어들어 업로드가 빠르게 완료돼요.
 
-Drive에 올릴 때 아래 구조가 유지되어야 해요:
-
-```
-내 드라이브/
-└── Trash-Smart-data/
-    ├── train/
-    │   ├── battery/battery/
-    │   ├── can/aluminum_can/
-    │   └── ... (15개 클래스)
-    ├── val/
-    └── test/
-```
-
-### 업로드 방법
+### 팀장: 업로드 방법
 
 1. [drive.google.com](https://drive.google.com) 접속
-2. **`+ 새로 만들기`** → **`폴더`** → 이름: `Trash-Smart-data`
+2. **`+ 새로 만들기`** → **`폴더`** → 이름: `data_256`
 3. 해당 폴더에 들어가서 `train/`, `val/`, `test/` 폴더를 드래그해서 업로드
-4. 업로드 완료 후 폴더 링크를 팀원들에게 공유 (우클릭 → 공유 → 링크 복사)
+
+   ```
+   내 드라이브/
+   └── data_256/
+       ├── train/
+       │   ├── battery/battery/
+       │   ├── can/aluminum_can/
+       │   └── ... (15개 클래스)
+       ├── val/
+       └── test/
+   ```
+
+4. 업로드 완료 후 폴더 공유 링크를 팀원에게 전달  
+   (폴더 우클릭 → **공유** → **링크 복사** → "링크가 있는 모든 사용자" 설정)
+
+### 팀원: Drive에 바로가기 추가
+
+1. 팀장에게 받은 링크로 접속
+2. 폴더 이름 옆 **`⋮`** → **`바로가기 추가`** → 내 드라이브 선택  
+   (이렇게 하면 내 Drive 용량을 쓰지 않아요)
 
 ---
 
@@ -96,12 +103,28 @@ drive.mount('/content/drive')
 !pip install pyyaml seaborn scikit-learn -q
 ```
 
+**셀 3-1 — Colab용 num_workers 설정** (Colab은 Linux라 멀티프로세싱 가능)
+```python
+import re
+
+with open('configs/config.yaml', 'r') as f:
+    cfg = f.read()
+
+cfg = re.sub(r'num_workers:.*', 'num_workers: 4', cfg)
+
+with open('configs/config.yaml', 'w') as f:
+    f.write(cfg)
+
+print("num_workers를 4로 변경했어요 (학습 속도 향상)")
+```
+
 **셀 4 — 데이터 폴더 연결**
 ```python
-# Drive에 올린 데이터 폴더를 프로젝트 안으로 연결
-!ln -s /content/drive/MyDrive/Trash-Smart-data data
+# Drive의 data_256 폴더를 프로젝트의 data 폴더로 연결
+!ln -s /content/drive/MyDrive/data_256 data
 ```
-> `Trash-Smart-data` 부분이 Drive에서 만든 폴더 이름과 다르면 맞춰서 수정하세요.
+> Drive에 바로가기로 추가한 경우 경로가 다를 수 있어요.  
+> 그럴 때는 왼쪽 파일 탐색기(📁)에서 `drive/MyDrive/` 안의 실제 폴더명을 확인하세요.
 
 **셀 5 — 모델 체크포인트 폴더 만들기**
 ```python
@@ -200,12 +223,5 @@ augmentation:
 | `RuntimeError: CUDA out of memory` | config.yaml에서 `batch_size: 16` 으로 낮추기 |
 | 런타임 연결 끊김 | Colab 무료 버전은 90분 idle 시 자동 종료 — 다시 연결 후 셀 2부터 재실행 |
 | `pth 파일 없음` | Releases에서 다운받아 `models/checkpoints/`에 넣기 |
+| `data/train: 0장` | 셀 4 심링크 경로 확인 — Drive 폴더명과 일치하는지 체크 |
 
----
-
-## 역할 정리
-
-| 역할 | 담당 | 해야 할 일 |
-|------|------|-----------|
-| 팀장 | 학습 | 모델 학습 후 `.pth` 파일을 GitHub Releases에 업로드 |
-| 팀원 | 실험/분석 | config.yaml 수정 → 재학습 → 결과 비교 → 보고서 작성 |
