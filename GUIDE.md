@@ -231,6 +231,31 @@ print("다운로드 완료!")
 
 ---
 
+## 6. 데모 앱 실행 (발표용)
+
+학습 없이 저장된 가중치로 바로 실행할 수 있어요.  
+섹션 2(환경 세팅) + 섹션 5(체크포인트 다운로드)까지 완료한 상태에서 실행하세요.
+
+**셀 — Gradio 설치**
+```python
+!pip install gradio -q
+```
+
+**셀 — 앱 실행 (공개 링크 생성)**
+```python
+!python app.py --checkpoint models/checkpoints/resnet50_best.pth --model resnet50 --share
+```
+
+> 실행하면 `Running on public URL: https://xxxx.gradio.live` 링크가 나와요.  
+> 해당 링크를 폰 브라우저에서 열면 카메라로 찍어서 바로 분류 가능해요.
+
+EfficientNet으로 바꾸려면:
+```python
+!python app.py --checkpoint models/checkpoints/efficientnet_b0_best.pth --model efficientnet_b0 --share
+```
+
+---
+
 ## 자주 생기는 문제
 
 | 증상 | 해결 방법 |
