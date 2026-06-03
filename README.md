@@ -1,14 +1,19 @@
-# Trash-Smart — AI 기반 재활용 분리수거 분류기
+# Trash-Smart — 한국형 AI 기반 재활용 분리수거 분류기
 
-쓰레기 이미지를 입력하면 AI가 종류를 분류하고, 한국 기준 배출 방법을 안내합니다.
+쓰레기 이미지를 입력하면 AI가 한국의 분리수거 배출 기준에 맞게 분류한다.
+
 
 ---
 
 ## 주요 기능
 
-- 이미지 업로드 시 쓰레기 종류 자동 분류 (15개 클래스)
-- ResNet-50 / EfficientNet-B0 두 모델 비교 실험
-- 분류 결과에 따른 한국형 분리수거 배출 가이드 제공
+- 이미지 업로드 시 한국의 분리수거 기준에 맞춰 분류
+- ResNet-50 / EfficientNet-B0 두 모델간 비교 실험 및 실험 진행
+
+---
+
+## 가이드 링크
+https://github.com/Timber-Kim/Trash-Smart/blob/main/GUIDE.md
 
 ---
 
@@ -25,14 +30,14 @@ Trash-Smart/
 ├── models/
 │   └── checkpoints/         # 학습된 가중치 (.pth)
 ├── results/                 # 평가 결과 (Confusion Matrix 이미지 등)
-├── scripts/
-│   └── split_data.py        # 데이터 분할 스크립트 (8:1:1, seed=42)
+│
 ├── src/
-│   ├── dataset.py           # 데이터 로더 및 증강 파이프라인
-│   ├── models.py            # ResNet-50 / EfficientNet-B0 모델 정의
+│   ├── dataset.py           # 데이터 로더 및 증강
+│   ├── models.py            # ResNet-50 / EfficientNet-B0 모델
 │   ├── train.py             # 학습 스크립트
 │   └── evaluate.py          # 평가 및 모델 비교 스크립트
 ├── requirements.txt
+├── LICENSE
 └── README.md
 ```
 
@@ -42,7 +47,7 @@ Trash-Smart/
 
 ## 데이터셋
 
-**출처:** AI Hub — 재활용 쓰레기 데이터셋  
+**출처:** AI Hub — 재활용 쓰레기 데이터셋(https://aihub.or.kr/mypage/reqst/datareqst/view.do?currMenu=157&topMenu=106&dataReqstSn=670031)  
 **총 이미지 수:** 40,200장 | **클래스 수:** 15개 | **분할:** Train 80% / Val 10% / Test 10% (seed=42)
 
 | 카테고리 | 폴더 경로 | 전체 | Train | Val | Test |
@@ -142,17 +147,6 @@ python src/evaluate.py \
 ## 결과
 
 <!-- TODO: 학습 완료 후 정확도, Confusion Matrix 등 결과 기재 -->
-
----
-
-## 팀 역할 분담
-
-| 역할 | 담당 |
-|------|------|
-| 데이터 수집 및 전처리 | <!-- TODO --> |
-| 모델 학습 및 실험 | <!-- TODO --> |
-| 결과 분석 및 시각화 | <!-- TODO --> |
-| 보고서 및 발표 | <!-- TODO --> |
 
 ---
 
