@@ -1,0 +1,18 @@
+# PyTorch — (NVIDIA GPU 환경, 데스크탑에서 NVIDIA 그래픽 카드 사용하고 있으면 사용)
+# CPU 환경이라면 아래 두 줄을 pip install torch torchvision 으로 교체
+torch==2.11.0+cu128
+torchvision==0.26.0+cu128
+
+# 데이터 처리
+numpy==2.4.4
+Pillow==12.2.0
+
+# 학습 설정
+PyYAML==6.0.3
+
+# 평가 지표
+scikit-learn==1.9.0
+
+# 시각화
+matplotlib==3.10.9
+seaborn==0.13.2

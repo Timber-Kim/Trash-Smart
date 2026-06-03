@@ -1,0 +1,24 @@
+# 튜토리얼 하드코딩 값들을 yaml로 추출
+data:
+  data_dir: data
+  num_classes: 15
+
+model:
+  name: resnet50          # 'resnet50' 또는 'efficientnet_b0'
+  feature_extract: false  # false=fine-tuning(전체 학습), true=feature extraction(backbone 동결)
+
+training:
+  num_epochs: 25          # 튜토리얼 기본값
+  batch_size: 32
+  lr: 0.001               # 튜토리얼: optim.SGD(..., lr=0.001)
+  step_size: 7            # 튜토리얼: StepLR(optimizer, step_size=7, gamma=0.1)
+  num_workers: 4
+
+augmentation:
+  random_resized_crop: true
+  random_horizontal_flip: true
+  random_vertical_flip: false
+  random_rotation: 15     # 회전 각도 (0이면 비활성화)
+  color_jitter: true
+  random_grayscale: false
+  gaussian_blur: false
