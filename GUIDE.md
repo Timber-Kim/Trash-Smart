@@ -203,10 +203,10 @@ for f in os.listdir('models/checkpoints'):
 ```python
 !mkdir -p models/checkpoints
 
-!wget https://github.com/Timber-Kim/Trash-Smart/releases/download/untagged-f5f0c4f8db08a310dc17/resnet50_best.pth \
+!wget https://github.com/Timber-Kim/Trash-Smart/releases/download/first/resnet50_best.pth \
      -O models/checkpoints/resnet50_best.pth
 
-!wget https://github.com/Timber-Kim/Trash-Smart/releases/download/untagged-f5f0c4f8db08a310dc17/efficientnet_b0_best.pth \
+!wget https://github.com/Timber-Kim/Trash-Smart/releases/download/first/efficientnet_b0_best.pth \
      -O models/checkpoints/efficientnet_b0_best.pth
 
 print("다운로드 완료!")
