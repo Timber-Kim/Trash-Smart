@@ -3,6 +3,7 @@
 ## 데이터셋 정리 과정
 
 AI-Hub에서 한국의 재활용 분류 기준에 맞춰 한국의 재활용 쓰레기 이미지를 준비 및 분류 (약 40,200장)
+https://aihub.or.kr/aihubdata/data/view.do?currMenu=115&topMenu=100&dataSetSn=71362
 
 - 준비한 데이터셋의 결측치 제거 등 전처리를 진행하고 8:1:1 (train : val : test)로 분할
 - 추후 모델별 비교 실험에 용이하도록 test 데이터를 증강할 수 있는 코드를 추가 (인자를 받아 특정 카테고리만 증강 진행)
