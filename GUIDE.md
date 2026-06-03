@@ -35,30 +35,12 @@ GitHub는 코드를 공유하는 공간이에요. **코드를 직접 수정할 �
 
 ---
 
-## 2. Google Drive — 데이터 올리기
+## 2. Google Drive — 데이터 준비
 
-이미지 데이터는 256×256으로 미리 리사이즈한 버전(`data_256/`)을 사용해요.  
-원본 ~140GB → 리사이즈 후 **약 600MB~1GB** 로 줄어들어 업로드가 빠르게 완료돼요.
+이미지 데이터는 256px로 미리 리사이즈한 버전(`data_256`)을 사용해요.  
+데이터는 이미 준비되어 있어요. **별도로 업로드할 필요 없어요.**
 
-### 업로드 방법
-
-1. [drive.google.com](https://drive.google.com) 접속
-2. **`+ 새로 만들기`** → **`폴더`** → 이름: `data_256`
-3. 해당 폴더에 들어가서 `train/`, `val/`, `test/` 폴더를 드래그해서 업로드
-
-   ```
-   내 드라이브/
-   └── data_256/
-       ├── train/
-       │   ├── battery/battery/
-       │   ├── can/aluminum_can/
-       │   └── ... (15개 클래스)
-       ├── val/
-       └── test/
-   ```
-
-4. 업로드 완료 후 폴더 공유 링크를 전달 
-   (폴더 우클릭 → **공유** → **링크 복사** → "링크가 있는 모든 사용자" 설정)
+Colab 셀에서 자동으로 다운로드되니까 바로 3번으로 넘어가세요.
 
 1. https://drive.google.com/drive/folders/1CtYVP9Hljn5rFBjdP4w1Pj3UPEs7mfEH?usp=sharing 링크로 접속
 2. 폴더 이름 옆 **`⋮`** → **`바로가기 추가`** → 내 드라이브 선택    
@@ -113,13 +95,21 @@ with open('configs/config.yaml', 'w') as f:
 print("num_workers를 4로 변경했어요 (학습 속도 향상)")
 ```
 
-**셀 4 — 데이터 폴더 연결**
+**셀 4 — 데이터 다운로드 + 연결** (2~3분 소요)
 ```python
-# Drive의 data_256 폴더를 프로젝트의 data 폴더로 연결
-!ln -s /content/drive/MyDrive/data_256 data
+import os
+
+# 공유 링크에서 자동 다운로드 + 압축 해제
+!gdown --id 1diKW4pCsXoBMOojGe-fKR_rnf2K6fkla -O /content/data_256.zip
+!unzip -q /content/data_256.zip -d /content/
+
+# 프로젝트의 data 폴더로 연결
+if os.path.islink('data') or os.path.exists('data'):
+    os.remove('data')
+!ln -s /content/data_256 data
+
+print("완료! 데이터 다운로드 및 연결 성공")
 ```
-> Drive에 바로가기로 추가한 경우 경로가 다를 수 있어요.  
-> 그럴 때는 왼쪽 파일 탐색기(📁)에서 `drive/MyDrive/` 안의 실제 폴더명을 확인하세요.
 
 **셀 5 — 모델 체크포인트 폴더 만들기**
 ```python
