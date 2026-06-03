@@ -4,8 +4,10 @@
 import os
 import torch
 from pathlib import Path
-from PIL import Image
+from PIL import Image, ImageFile
 from torchvision import transforms
+
+ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 IMG_EXTS = {'.jpg', '.jpeg', '.png', '.JPG', '.JPEG', '.PNG'}
 
