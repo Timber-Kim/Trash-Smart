@@ -12,6 +12,20 @@
 - Batch size: 32
 - Learning rate: 0.001
 
+### 데이터 증강 설정 (train only)
+
+| 증강 기법 | 적용 여부 |
+|-----------|-----------|
+| RandomResizedCrop | ✅ |
+| RandomHorizontalFlip | ✅ |
+| RandomVerticalFlip | ❌ |
+| RandomRotation (±15°) | ✅ |
+| ColorJitter | ✅ |
+| RandomGrayscale | ❌ |
+| GaussianBlur | ❌ |
+
+> val / test는 증강 없이 Resize → CenterCrop → Normalize만 적용
+
 ---
 
 ## 모델 비교 요약
