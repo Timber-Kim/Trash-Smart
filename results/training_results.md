@@ -33,9 +33,14 @@
 | | EfficientNet-B0 | ResNet-50 |
 |--|--|--|
 | **Best val Accuracy** | 88.83% | **92.31%** |
+| **Test Accuracy** | - | - |
+| **Test Macro F1** | - | - |
+| **추론 시간 (ms/image)** | - | - |
 | **학습 시간** | **91분 45초** | 143분 26초 |
 | **파라미터 수** | ~5.3M | ~25M |
 | **Best 에폭** | 16 | 20 |
+
+> Test 결과는 `evaluate.py` 실행 후 채워넣기
 
 ---
 
