@@ -115,14 +115,45 @@ if os.path.isdir(sample_dir):
 
 모든 실험 설정은 **`configs/config.yaml`** 파일 하나에서 관리해요.
 
-### config.yaml 수정
+### 모델 선택
+
+**ResNet-50 학습 (기본값)**
+```python
+import re
+
+with open('configs/config.yaml', 'r') as f:
+    cfg = f.read()
+
+cfg = re.sub(r'name:.*', 'name: resnet50', cfg)
+
+with open('configs/config.yaml', 'w') as f:
+    f.write(cfg)
+
+print("모델: resnet50")
+```
+
+**EfficientNet-B0 학습**
+```python
+import re
+
+with open('configs/config.yaml', 'r') as f:
+    cfg = f.read()
+
+cfg = re.sub(r'name:.*', 'name: efficientnet_b0', cfg)
+
+with open('configs/config.yaml', 'w') as f:
+    f.write(cfg)
+
+print("모델: efficientnet_b0")
+```
+
+> 파일 탐색기에서 직접 수정하면 저장이 안 될 수 있어요. 위 셀로 변경하는 게 확실해요.
+
+### 기타 설정 (선택)
 
 Colab 왼쪽 파일 탐색기(📁 아이콘) → `Trash-Smart/configs/config.yaml` 더블클릭
 
 ```yaml
-model:
-  name: resnet50          # ← 'resnet50' 또는 'efficientnet_b0' 로 변경
-
 training:
   num_epochs: 25          # ← 학습 에폭 수
   batch_size: 32          # ← 배치 크기 (메모리 부족하면 16으로 낮추기)
