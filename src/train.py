@@ -15,7 +15,7 @@ from models import get_model
 cudnn.benchmark = True
 
 # 튜토리얼: device 설정 (dataset.py에서 옮겨옴)
-device = torch.accelerator.current_accelerator().type if torch.accelerator.is_available() else "cpu"
+device = 'cuda' if torch.cuda.is_available() else 'cpu'
 print(f"Using {device} device")
 
 
@@ -85,7 +85,8 @@ def train_model(model, criterion, optimizer, scheduler,
     print(f'Best val Acc: {best_acc:4f}')
 
     # load best model weights
-    model.load_state_dict(torch.load(save_path, weights_only=True))
+    if os.path.exists(save_path):
+        model.load_state_dict(torch.load(save_path, weights_only=True))
     return model
 
 

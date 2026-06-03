@@ -17,7 +17,7 @@ from dataset import get_dataloaders
 from models import get_model
 
 # 튜토리얼: device 설정
-device = torch.accelerator.current_accelerator().type if torch.accelerator.is_available() else "cpu"
+device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
 
 # 튜토리얼 "Visualizing the model predictions" — 최소 참고, 원형 유지
