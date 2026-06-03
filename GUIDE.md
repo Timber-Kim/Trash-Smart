@@ -60,9 +60,9 @@ GitHub는 코드를 공유하는 공간이에요. **코드를 직접 수정할 �
 4. 업로드 완료 후 폴더 공유 링크를 전달 
    (폴더 우클릭 → **공유** → **링크 복사** → "링크가 있는 모든 사용자" 설정)
 
-1. 받은 링크로 접속
-2. 폴더 이름 옆 **`⋮`** → **`바로가기 추가`** → 내 드라이브 선택  
-   (이렇게 하면 내 Drive 용량을 쓰지 않아요)
+1. https://drive.google.com/drive/folders/1CtYVP9Hljn5rFBjdP4w1Pj3UPEs7mfEH?usp=sharing 링크로 접속
+2. 폴더 이름 옆 **`⋮`** → **`바로가기 추가`** → 내 드라이브 선택    
+   (이렇게 하면 내 Drive 용량을 쓰지 않아요) 
 
 ---
 
@@ -129,11 +129,19 @@ print("num_workers를 4로 변경했어요 (학습 속도 향상)")
 **셀 6 — 데이터 잘 연결됐는지 확인**
 ```python
 import os
+
+# os.walk는 Drive 마운트 환경에서 매우 느림 → 폴더 존재 여부만 빠르게 체크
 for split in ['train', 'val', 'test']:
-    count = sum(len(files) for _, _, files in os.walk(f'data/{split}'))
-    print(f'{split}: {count}장')
+    exists = os.path.isdir(f'data/{split}')
+    print(f'data/{split}: {"존재 ✅" if exists else "없음 ❌"}')
+
+# 한 클래스만 샘플 확인
+sample_dir = 'data/train/battery/battery'
+if os.path.isdir(sample_dir):
+    count = len(os.listdir(sample_dir))
+    print(f'\n샘플 확인 (battery): {count}장 → {"정상 ✅" if count > 0 else "비어있음 ❌"}')
 ```
-> train: 32160장 / val: 4020장 / test: 4020장 이 나오면 정상
+> 세 줄 모두 `존재 ✅` + battery 장수가 나오면 정상
 
 ---
 
