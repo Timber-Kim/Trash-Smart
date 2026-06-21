@@ -1,15 +1,17 @@
 import subprocess
 import matplotlib.pyplot as plt
-import matplotlib
 import matplotlib.font_manager as fm
 import numpy as np
 
 # Colab 한글 폰트 설치
 subprocess.run(['apt-get', 'install', '-y', '-q', 'fonts-nanum'], capture_output=True)
-fm.fontManager.__init__()  # 폰트 캐시 갱신
 
-matplotlib.rcParams['font.family'] = 'NanumGothic'
-matplotlib.rcParams['axes.unicode_minus'] = False
+FONT_PATH = '/usr/share/fonts/truetype/nanum/NanumGothic.ttf'
+fm.fontManager.addfont(FONT_PATH)
+font_name = fm.FontProperties(fname=FONT_PATH).get_name()
+
+plt.rcParams['font.family'] = font_name
+plt.rcParams['axes.unicode_minus'] = False
 
 # ── 수치 (실제 실험 결과) ──────────────────────────────────────────────────
 models = ['ResNet-50', 'EfficientNet-B0']
