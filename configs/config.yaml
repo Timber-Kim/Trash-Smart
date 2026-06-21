@@ -20,5 +20,5 @@ augmentation:
   random_vertical_flip: false
   random_rotation: 15     # 회전 각도 (0이면 비활성화)
   color_jitter: true
-  random_grayscale: false
-  gaussian_blur: false
+  random_grayscale: true
+  gaussian_blur: true
