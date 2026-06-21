@@ -229,6 +229,22 @@ print("다운로드 완료!")
 !cp -r results/ /content/drive/MyDrive/Trash-Smart-results/
 ```
 
+### 5-1. 모델 비교 차트 생성
+
+평가 완료 후 아래 셀을 실행하면 `results/comparison_chart.png` 이미지가 생성돼요.
+
+```python
+import os
+os.makedirs('results', exist_ok=True)
+
+!python scripts/plot_comparison.py
+```
+
+> 차트 이미지를 Drive에 저장하려면:
+> ```python
+> !cp results/comparison_chart.png /content/drive/MyDrive/Trash-Smart-results/
+> ```
+
 ---
 
 ## 6. 데모 앱 실행 (발표용)
