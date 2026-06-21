@@ -1,8 +1,14 @@
+import subprocess
 import matplotlib.pyplot as plt
 import matplotlib
+import matplotlib.font_manager as fm
 import numpy as np
 
-matplotlib.rcParams['font.family'] = ['DejaVu Sans', 'Malgun Gothic', 'sans-serif']
+# Colab 한글 폰트 설치
+subprocess.run(['apt-get', 'install', '-y', '-q', 'fonts-nanum'], capture_output=True)
+fm.fontManager.__init__()  # 폰트 캐시 갱신
+
+matplotlib.rcParams['font.family'] = 'NanumGothic'
 matplotlib.rcParams['axes.unicode_minus'] = False
 
 # ── 수치 (실제 실험 결과) ──────────────────────────────────────────────────
