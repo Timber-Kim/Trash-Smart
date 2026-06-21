@@ -3,9 +3,11 @@ import torch
 import gradio as gr
 from torchvision import transforms
 from PIL import Image
+import numpy as np
 
 sys.path.append('src')
 from models import get_model
+from gradcam import GradCAM, get_target_layer, denorm, make_overlay_pil
 
 CLASS_NAMES_KO = {
     'battery':               '건전지',
@@ -46,35 +48,47 @@ def load_model(checkpoint_path: str, model_name: str):
     return model
 
 
-def predict(image: Image.Image, model):
+def predict_with_cam(image: Image.Image, model, gcam):
     tensor = TRANSFORM(image).unsqueeze(0).to(device)
-    with torch.no_grad():
-        logits = model(tensor)
-        probs = torch.softmax(logits, dim=1)[0]
 
-    top3 = torch.topk(probs, 3)
+    # Grad-CAM은 gradient가 필요해 no_grad 미사용
+    logits = model(tensor)
+    probs  = torch.softmax(logits, dim=1)[0]
+    top1   = probs.argmax().item()
+
+    # Top-3 결과
+    top3   = torch.topk(probs, 3)
     result = {}
     for score, idx in zip(top3.values, top3.indices):
         label = CLASS_NAMES_KO[CLASS_NAMES[idx.item()]]
         result[label] = round(score.item(), 4)
-    return result
+
+    # Grad-CAM 생성 (top-1 예측 기준)
+    cam     = gcam(tensor, top1)
+    img_np  = denorm(tensor.squeeze(0))
+    cam_pil = make_overlay_pil(img_np, cam)
+
+    return result, cam_pil
 
 
 def build_app(checkpoint_path: str, model_name: str = 'resnet50'):
     model = load_model(checkpoint_path, model_name)
+    gcam  = GradCAM(model, get_target_layer(model, model_name))
 
     def inference(image):
         if image is None:
-            return {}
-        return predict(image, model)
+            return {}, None
+        return predict_with_cam(image, model, gcam)
 
     demo = gr.Interface(
         fn=inference,
         inputs=gr.Image(type='pil', label='쓰레기 이미지'),
-        outputs=gr.Label(num_top_classes=3, label='분류 결과'),
+        outputs=[
+            gr.Label(num_top_classes=3, label='분류 결과'),
+            gr.Image(type='pil',        label='Grad-CAM (모델이 집중한 영역)'),
+        ],
         title='Trash-Smart 재활용 분류기',
         description=f'모델: {model_name} | 이미지를 업로드하거나 웹캠으로 찍어주세요.',
-        examples=None,
         live=False,
     )
     return demo

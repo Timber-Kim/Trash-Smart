@@ -1,16 +1,23 @@
+import os
+import sys
 import subprocess
 import matplotlib.pyplot as plt
 import matplotlib.font_manager as fm
 import numpy as np
 
-# Colab 한글 폰트 설치
-subprocess.run(['apt-get', 'install', '-y', '-q', 'fonts-nanum'], capture_output=True)
+# results 폴더 생성
+os.makedirs('results', exist_ok=True)
 
-FONT_PATH = '/usr/share/fonts/truetype/nanum/NanumGothic.ttf'
-fm.fontManager.addfont(FONT_PATH)
-font_name = fm.FontProperties(fname=FONT_PATH).get_name()
-
-plt.rcParams['font.family'] = font_name
+# OS별 한글 폰트 설정
+if sys.platform == 'win32':
+    plt.rcParams['font.family'] = 'Malgun Gothic'
+else:
+    FONT_PATH = '/usr/share/fonts/truetype/nanum/NanumGothic.ttf'
+    if not os.path.exists(FONT_PATH):
+        subprocess.run(['apt-get', 'install', '-y', 'fonts-nanum'], check=False)
+    if os.path.exists(FONT_PATH):
+        fm.fontManager.addfont(FONT_PATH)
+        plt.rcParams['font.family'] = fm.FontProperties(fname=FONT_PATH).get_name()
 plt.rcParams['axes.unicode_minus'] = False
 
 # ── 수치 (실제 실험 결과) ──────────────────────────────────────────────────
