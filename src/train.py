@@ -93,34 +93,39 @@ def train_model(model, criterion, optimizer, scheduler,
 def main():
     parser = argparse.ArgumentParser(description='Trash-Smart 모델 학습')
     parser.add_argument('--config', default='configs/config.yaml', help='config 파일 경로')
+    parser.add_argument('--resume', default=None, help='이어서 학습할 checkpoint .pth 경로')
     args = parser.parse_args()
 
     with open(args.config, encoding='utf-8') as f:
         cfg = yaml.safe_load(f)
 
-    # dataset.py의 get_dataloaders 호출
     dataloaders, dataset_sizes, class_names = get_dataloaders(
         data_dir=cfg['data']['data_dir'],
         batch_size=cfg['training']['batch_size'],
         num_workers=cfg['training']['num_workers'],
-        aug_cfg=cfg.get('augmentation'),  # config.yaml의 augmentation 섹션 전달
+        aug_cfg=cfg.get('augmentation'),
     )
     print(f"Classes ({len(class_names)}): {class_names}")
 
-    # models.py의 get_model 호출
     model = get_model(
         model_name=cfg['model']['name'],
         num_classes=len(class_names),
         feature_extract=cfg['model']['feature_extract'],
     )
+
+    if args.resume:
+        model.load_state_dict(torch.load(args.resume, map_location=device, weights_only=True))
+        print(f"Checkpoint 로드 완료 → {args.resume}")
+
     model = model.to(device)
 
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.SGD(model.parameters(), lr=cfg['training']['lr'], momentum=0.9)
-
     scheduler = lr_scheduler.StepLR(optimizer, step_size=cfg['training']['step_size'], gamma=0.1)
 
-    save_path = os.path.join('models', 'checkpoints', f"{cfg['model']['name']}_best.pth")
+    model_name = cfg['model']['name']
+    suffix     = '_finetune' if args.resume else ''
+    save_path  = os.path.join('models', 'checkpoints', f"{model_name}{suffix}_best.pth")
 
     model = train_model(
         model, criterion, optimizer, scheduler,

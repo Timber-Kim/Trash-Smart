@@ -8,11 +8,11 @@ model:
   feature_extract: false  # false=fine-tuning(전체 학습), true=feature extraction(backbone 동결)
 
 training:
-  num_epochs: 25
+  num_epochs: 5            # 추가 학습 epoch 수
   batch_size: 32
-  lr: 0.001               # 튜토리얼: optim.SGD(..., lr=0.001)
-  step_size: 7            # 튜토리얼: StepLR(optimizer, step_size=7, gamma=0.1)
-  num_workers: 0          # Windows에서는 0 권장 (멀티프로세싱 이슈)
+  lr: 0.00001              # resume 시 낮은 LR (기존 가중치 보존)
+  step_size: 7             # 5 epoch 동안 감소 없음 → 고정 LR 효과
+  num_workers: 0           # Windows에서는 0 권장 (멀티프로세싱 이슈)
 
 augmentation:
   random_resized_crop: true

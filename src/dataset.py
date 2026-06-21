@@ -102,10 +102,10 @@ def build_transforms(aug_cfg=None):
         train_list.append(transforms.RandomRotation(rotation))
 
     if aug.get('color_jitter', True):
-        train_list.append(transforms.ColorJitter(brightness=0.2, contrast=0.2, saturation=0.2))
+        train_list.append(transforms.ColorJitter(brightness=0.4, contrast=0.4, saturation=0.4, hue=0.1))
 
     if aug.get('random_grayscale', False):
-        train_list.append(transforms.RandomGrayscale(p=0.1))
+        train_list.append(transforms.RandomGrayscale(p=0.2))
 
     if aug.get('gaussian_blur', False):
         train_list.append(transforms.GaussianBlur(kernel_size=3))
